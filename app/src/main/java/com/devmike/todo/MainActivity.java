@@ -1,17 +1,21 @@
 package com.devmike.todo;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.devmike.todo.global.Global;
@@ -27,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements Updatable {
     private ArrayAdapter<ToDo> arrayAdapter;
     private ListView listView;
     private EditText input;
+    private Switch aSwitch;
     private Intent intent;
     private AlertDialog.Builder builder;
 
@@ -40,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements Updatable {
         builder = new AlertDialog.Builder(this);
         listView = findViewById(R.id.listView);
         input = findViewById(R.id.input);
+        aSwitch = findViewById(R.id.switch1);
+        aSwitch.setOnCheckedChangeListener(onCheckedChangeListener);
 
         arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, Repo.r().getToDoList());
         listView.setAdapter(arrayAdapter);
@@ -47,6 +54,14 @@ public class MainActivity extends AppCompatActivity implements Updatable {
         listView.setOnItemClickListener(onItemClickListener);
         listView.setOnItemLongClickListener(onItemLongClickListener);
     }
+
+    private final CompoundButton.OnCheckedChangeListener onCheckedChangeListener = (@NonNull CompoundButton buttonView, boolean isChecked) -> {
+        if (isChecked) {
+            intent = new Intent(this, ImageViewer.class);
+            startActivity(intent);
+            aSwitch.setChecked(false);
+        }
+    };
 
     private final AdapterView.OnItemClickListener onItemClickListener = (parent, v, position, id) -> {
         intent = new Intent(this, DetailView.class);
@@ -88,5 +103,10 @@ public class MainActivity extends AppCompatActivity implements Updatable {
         runOnUiThread(() -> {
             arrayAdapter.notifyDataSetChanged();
         });
+    }
+
+    @Override
+    public void update(Bitmap bitmap) {
+
     }
 }

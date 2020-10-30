@@ -4,4 +4,9 @@
     <string name="title">Enter title</string>
     <string name="save">Save</string>
     <string name="description">Enter description</string>
+    <string name="mySwitch">Switch</string>
+    <string name="findFIle">Find file</string>
+    <string name="filename">Enter file name</string>
+    <string name="album">Album</string>
+
 </resources>
